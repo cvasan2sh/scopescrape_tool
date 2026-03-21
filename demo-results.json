@@ -1,0 +1,319 @@
+{
+  "scopescrape_version": "0.1.0",
+  "result_count": 6,
+  "results": [
+    {
+      "post_id": "t3_real6",
+      "platform": "reddit",
+      "title": "Why does every CRM suck?",
+      "body_excerpt": "I hate Salesforce. HubSpot is buggy. Pipedrive is too complicated. I struggle with finding anything that does not waste my time. We are a 3-person sales team and we desperately need a CRM that is n...",
+      "author": "sales_dev",
+      "source": "r/saas",
+      "created_at": "2026-03-21T16:33:59.378517",
+      "url": "https://reddit.com/r/saas/comments/real6/",
+      "frequency_score": 10.0,
+      "intensity_score": 8.898,
+      "specificity_score": 8.8,
+      "recency_score": 9.836,
+      "composite_score": 9.43,
+      "sentiment_score": -0.766,
+      "entities": [
+        "CRM",
+        "HubSpot",
+        "Pipedrive",
+        "Salesforce",
+        "We"
+      ],
+      "signal_count": 6,
+      "signal_phrases": [
+        {
+          "phrase": "I struggle with",
+          "tier": "PAIN_POINT",
+          "category": "emotion",
+          "context": ". HubSpot is buggy. Pipedrive is too complicated. I struggle with finding anything that does not waste my time. We "
+        },
+        {
+          "phrase": "buggy",
+          "tier": "PAIN_POINT",
+          "category": "bug",
+          "context": "oes every CRM suck? I hate Salesforce. HubSpot is buggy. Pipedrive is too complicated. I struggle with fi"
+        },
+        {
+          "phrase": "too complicated",
+          "tier": "PAIN_POINT",
+          "category": "workflow",
+          "context": "I hate Salesforce. HubSpot is buggy. Pipedrive is too complicated. I struggle with finding anything that does not w"
+        },
+        {
+          "phrase": "I hate",
+          "tier": "EMOTIONAL",
+          "category": "emotion",
+          "context": "Why does every CRM suck? I hate Salesforce. HubSpot is buggy. Pipedrive is too co"
+        },
+        {
+          "phrase": "terrible",
+          "tier": "EMOTIONAL",
+          "category": "emotion",
+          "context": "es team and we desperately need a CRM that is not terrible."
+        },
+        {
+          "phrase": "desperately need",
+          "tier": "EMOTIONAL",
+          "category": "feature_request",
+          "context": "aste my time. We are a 3-person sales team and we desperately need a CRM that is not terrible."
+        }
+      ],
+      "text_length": 209
+    },
+    {
+      "post_id": "t3_real1",
+      "platform": "reddit",
+      "title": "I'm frustrated with every project management tool on the market",
+      "body_excerpt": "Tried Asana, Monday, ClickUp, and Notion. Asana is too rigid, Monday is bloated, ClickUp crashes constantly, and Notion is too freeform. Is there a tool that just works for a small team of 5? I des...",
+      "author": "startup_dev",
+      "source": "r/saas",
+      "created_at": "2026-03-21T14:33:59.378481",
+      "url": "https://reddit.com/r/saas/comments/real1/",
+      "frequency_score": 10.0,
+      "intensity_score": 8.402,
+      "specificity_score": 8.8,
+      "recency_score": 9.756,
+      "composite_score": 9.307,
+      "sentiment_score": -0.681,
+      "entities": [
+        "Asana",
+        "ClickUp",
+        "Is",
+        "Monday",
+        "Notion",
+        "Tried Asana"
+      ],
+      "signal_count": 5,
+      "signal_phrases": [
+        {
+          "phrase": "frustrated with",
+          "tier": "PAIN_POINT",
+          "category": "emotion",
+          "context": "I'm frustrated with every project management tool on the market Tried"
+        },
+        {
+          "phrase": "crashes constantly",
+          "tier": "PAIN_POINT",
+          "category": "bug",
+          "context": "n. Asana is too rigid, Monday is bloated, ClickUp crashes constantly, and Notion is too freeform. Is there a tool that"
+        },
+        {
+          "phrase": "bloated",
+          "tier": "PAIN_POINT",
+          "category": "workflow",
+          "context": "lickUp, and Notion. Asana is too rigid, Monday is bloated, ClickUp crashes constantly, and Notion is too fr"
+        },
+        {
+          "phrase": "desperately need",
+          "tier": "EMOTIONAL",
+          "category": "feature_request",
+          "context": "e a tool that just works for a small team of 5? I desperately need something simpler."
+        },
+        {
+          "phrase": "Is there a tool",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": "p crashes constantly, and Notion is too freeform. Is there a tool that just works for a small team of 5? I desperat"
+        }
+      ],
+      "text_length": 229
+    },
+    {
+      "post_id": "t3_real3",
+      "platform": "reddit",
+      "title": "Switched from Intercom to Crisp",
+      "body_excerpt": "Intercom pricing was a nightmare. We were paying $300/mo for 3 seats. Switched to Crisp and the experience is almost identical at 1/5 the cost. If only I had known earlier.",
+      "author": "founder123",
+      "source": "r/saas",
+      "created_at": "2026-03-21T18:33:59.378504",
+      "url": "https://reddit.com/r/saas/comments/real3/",
+      "frequency_score": 10.0,
+      "intensity_score": 5.933,
+      "specificity_score": 8.8,
+      "recency_score": 9.918,
+      "composite_score": 8.862,
+      "sentiment_score": 0.0,
+      "entities": [
+        "Crisp",
+        "Crisp Intercom",
+        "If",
+        "Intercom",
+        "Switched",
+        "We"
+      ],
+      "signal_count": 3,
+      "signal_phrases": [
+        {
+          "phrase": "nightmare",
+          "tier": "EMOTIONAL",
+          "category": "emotion",
+          "context": "hed from Intercom to Crisp Intercom pricing was a nightmare. We were paying $300/mo for 3 seats. Switched to "
+        },
+        {
+          "phrase": "If only",
+          "tier": "EMOTIONAL",
+          "category": "feature_request",
+          "context": "e experience is almost identical at 1/5 the cost. If only I had known earlier."
+        },
+        {
+          "phrase": "Switched from",
+          "tier": "COMPARISON",
+          "category": "migration",
+          "context": "Switched from Intercom to Crisp Intercom pricing was a nightmar"
+        }
+      ],
+      "text_length": 172
+    },
+    {
+      "post_id": "t3_real2",
+      "platform": "reddit",
+      "title": "Looking for an alternative to Notion",
+      "body_excerpt": "Notion databases are too slow once you hit 1000 rows. The whole thing becomes unusable. Anyone know a good replacement for managing product backlogs?",
+      "author": "pm_user",
+      "source": "r/saas",
+      "created_at": "2026-03-21T08:33:59.378500",
+      "url": "https://reddit.com/r/saas/comments/real2/",
+      "frequency_score": 10.0,
+      "intensity_score": 4.345,
+      "specificity_score": 6.5,
+      "recency_score": 9.517,
+      "composite_score": 7.849,
+      "sentiment_score": 0.44,
+      "entities": [
+        "Anyone",
+        "Looking",
+        "Notion Notion"
+      ],
+      "signal_count": 6,
+      "signal_phrases": [
+        {
+          "phrase": "too slow",
+          "tier": "PAIN_POINT",
+          "category": "workflow",
+          "context": "for an alternative to Notion Notion databases are too slow once you hit 1000 rows. The whole thing becomes u"
+        },
+        {
+          "phrase": "unusable",
+          "tier": "PAIN_POINT",
+          "category": "workflow",
+          "context": "w once you hit 1000 rows. The whole thing becomes unusable. Anyone know a good replacement for managing prod"
+        },
+        {
+          "phrase": "alternative to",
+          "tier": "COMPARISON",
+          "category": "tool_eval",
+          "context": "Looking for an alternative to Notion Notion databases are too slow once you hit"
+        },
+        {
+          "phrase": "replacement for",
+          "tier": "COMPARISON",
+          "category": "tool_eval",
+          "context": " whole thing becomes unusable. Anyone know a good replacement for managing product backlogs?"
+        },
+        {
+          "phrase": "Anyone know",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": " hit 1000 rows. The whole thing becomes unusable. Anyone know a good replacement for managing product backlogs?"
+        },
+        {
+          "phrase": "Looking for",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": "Looking for an alternative to Notion Notion databases are too"
+        }
+      ],
+      "text_length": 149
+    },
+    {
+      "post_id": "t1_comment1",
+      "platform": "reddit",
+      "title": "",
+      "body_excerpt": "Have you tried Linear? I wish more tools had their keyboard shortcuts. It is the best alternative to Jira I have found.",
+      "author": "linear_fan",
+      "source": "r/saas",
+      "created_at": "2026-03-21T15:33:59.378514",
+      "url": "",
+      "frequency_score": 10.0,
+      "intensity_score": 3.447,
+      "specificity_score": 6.5,
+      "recency_score": 9.796,
+      "composite_score": 7.753,
+      "sentiment_score": 0.784,
+      "entities": [
+        "It",
+        "Jira",
+        "Linear"
+      ],
+      "signal_count": 2,
+      "signal_phrases": [
+        {
+          "phrase": "I wish",
+          "tier": "EMOTIONAL",
+          "category": "feature_request",
+          "context": "Have you tried Linear? I wish more tools had their keyboard shortcuts. It is th"
+        },
+        {
+          "phrase": "alternative to",
+          "tier": "COMPARISON",
+          "category": "tool_eval",
+          "context": "ools had their keyboard shortcuts. It is the best alternative to Jira I have found."
+        }
+      ],
+      "text_length": 119
+    },
+    {
+      "post_id": "t3_real4",
+      "platform": "reddit",
+      "title": "How to validate a SaaS idea without building anything?",
+      "body_excerpt": "Best way to figure out if people actually want what you are building? Looking for a tool or process that works.",
+      "author": "aspiring_founder",
+      "source": "r/startups",
+      "created_at": "2026-03-19T20:33:59.378508",
+      "url": "https://reddit.com/r/startups/comments/real4/",
+      "frequency_score": 10.0,
+      "intensity_score": 5.299,
+      "specificity_score": 5.0,
+      "recency_score": 8.204,
+      "composite_score": 7.271,
+      "sentiment_score": -0.233,
+      "entities": [
+        "Best",
+        "Looking"
+      ],
+      "signal_count": 4,
+      "signal_phrases": [
+        {
+          "phrase": "How to",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": "How to validate a SaaS idea without building anything? B"
+        },
+        {
+          "phrase": "Looking for",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": "ut if people actually want what you are building? Looking for a tool or process that works."
+        },
+        {
+          "phrase": "Looking for a tool",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": "ut if people actually want what you are building? Looking for a tool or process that works."
+        },
+        {
+          "phrase": "Best way to",
+          "tier": "ASK",
+          "category": "help_seeking",
+          "context": "o validate a SaaS idea without building anything? Best way to figure out if people actually want what you are b"
+        }
+      ],
+      "text_length": 111
+    }
+  ]
+}

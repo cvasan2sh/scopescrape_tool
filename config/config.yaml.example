@@ -1,0 +1,47 @@
+# ScopeScrape Configuration
+# Copy this to ~/.scopescrape/config.yaml or ./config.yaml
+# Environment variables override values here.
+
+reddit:
+  # Create an app at https://www.reddit.com/prefs/apps
+  # Type: "script" for personal use
+  client_id: ${REDDIT_CLIENT_ID}
+  client_secret: ${REDDIT_CLIENT_SECRET}
+  user_agent: "ScopeScrape v0.1 (by your_username)"
+
+  # Seconds between API requests (Reddit allows 100/min for free tier)
+  rate_limit_delay: 1.0
+
+  # Max comment tree depth to traverse
+  comment_depth: 3
+
+  # How many MoreComments stubs to expand (each costs 1 API call)
+  replace_more_limit: 10
+
+hn:
+  # Hacker News uses Algolia Search API (no auth required)
+  rate_limit_delay: 0.1
+  comment_depth: 5
+
+scoring:
+  weights:
+    frequency: 0.25    # BM25 relevance across corpus
+    intensity: 0.20    # VADER sentiment + signal phrase tier
+    specificity: 0.25  # spaCy NER entity count + text length
+    recency: 0.30      # Exponential time decay
+  # Posts below this composite score are dropped from results
+  min_score: 5.0
+
+storage:
+  # SQLite database location
+  db_path: ~/.scopescrape/data.db
+  # Auto-delete posts older than this (Reddit API compliance)
+  retention_hours: 48
+  # Set to true for single-run analysis without persistence
+  in_memory: false
+
+scan:
+  default_limit: 100
+  default_time_range: week    # day, week, month, year
+  default_platforms:
+    - reddit

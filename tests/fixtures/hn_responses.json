@@ -1,0 +1,84 @@
+{
+  "search_stories": {
+    "hits": [
+      {
+        "objectID": "39001234",
+        "title": "Show HN: Open-source alternative to GummySearch for Reddit pain points",
+        "story_text": "I built a tool that scans Reddit for user frustrations and scores them.",
+        "url": null,
+        "author": "sivap",
+        "points": 89,
+        "num_comments": 34,
+        "created_at": "2026-03-20T14:30:00.000Z"
+      },
+      {
+        "objectID": "39005678",
+        "title": "Reddit's API changes are pushing developers to build alternatives",
+        "story_text": "",
+        "url": "https://example.com/reddit-api-changes",
+        "author": "techwriter",
+        "points": 156,
+        "num_comments": 72,
+        "created_at": "2026-03-19T10:00:00.000Z"
+      }
+    ],
+    "nbHits": 2,
+    "page": 0,
+    "nbPages": 1,
+    "hitsPerPage": 50
+  },
+  "item_thread": {
+    "id": 39001234,
+    "type": "story",
+    "title": "Show HN: Open-source alternative to GummySearch",
+    "text": "I built a tool that scans Reddit for user frustrations.",
+    "author": "sivap",
+    "points": 89,
+    "url": null,
+    "created_at": "2026-03-20T14:30:00.000Z",
+    "children": [
+      {
+        "id": 39001300,
+        "type": "comment",
+        "text": "This is exactly what I needed. GummySearch going down left a huge gap.",
+        "author": "founder123",
+        "points": null,
+        "parent_id": 39001234,
+        "created_at": "2026-03-20T15:00:00.000Z",
+        "children": [
+          {
+            "id": 39001400,
+            "type": "comment",
+            "text": "How does the scoring work? Is it just keyword matching?",
+            "author": "ml_curious",
+            "points": null,
+            "parent_id": 39001300,
+            "created_at": "2026-03-20T15:30:00.000Z",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": 39001500,
+        "type": "comment",
+        "text": "Have you considered adding GitHub Discussions as a source?",
+        "author": "devops_fan",
+        "points": null,
+        "parent_id": 39001234,
+        "created_at": "2026-03-20T16:00:00.000Z",
+        "children": [],
+        "deleted": false,
+        "dead": false
+      }
+    ]
+  },
+  "deleted_item": {
+    "id": 39009999,
+    "type": "comment",
+    "text": null,
+    "author": null,
+    "deleted": true,
+    "dead": false,
+    "children": []
+  }
+}

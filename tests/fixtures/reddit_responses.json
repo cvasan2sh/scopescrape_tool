@@ -1,0 +1,137 @@
+{
+  "search_listing": {
+    "kind": "Listing",
+    "data": {
+      "after": null,
+      "children": [
+        {
+          "kind": "t3",
+          "data": {
+            "id": "abc123",
+            "subreddit": "saas",
+            "title": "I'm frustrated with every project management tool",
+            "selftext": "Tried Asana, Monday, ClickUp. They all have issues. Anyone found something that works for a team of 5?",
+            "author": "startup_dev_42",
+            "score": 127,
+            "num_comments": 43,
+            "permalink": "/r/saas/comments/abc123/frustrated_with_pm_tools/",
+            "created_utc": 1742630400,
+            "removed_by_category": null
+          }
+        },
+        {
+          "kind": "t3",
+          "data": {
+            "id": "def456",
+            "subreddit": "saas",
+            "title": "Is there an alternative to Notion that handles databases better?",
+            "selftext": "Notion databases are too slow once you hit 1000 rows. Looking for something with real filtering.",
+            "author": "data_nerd",
+            "score": 89,
+            "num_comments": 31,
+            "permalink": "/r/saas/comments/def456/notion_alternative/",
+            "created_utc": 1742544000,
+            "removed_by_category": null
+          }
+        },
+        {
+          "kind": "t3",
+          "data": {
+            "id": "deleted1",
+            "subreddit": "saas",
+            "title": "[deleted]",
+            "selftext": "[removed]",
+            "author": "[deleted]",
+            "score": 0,
+            "num_comments": 0,
+            "permalink": "/r/saas/comments/deleted1/",
+            "created_utc": 1742457600,
+            "removed_by_category": "moderator"
+          }
+        }
+      ]
+    }
+  },
+  "thread_response": [
+    {
+      "kind": "Listing",
+      "data": {
+        "children": [
+          {
+            "kind": "t3",
+            "data": {
+              "id": "abc123",
+              "subreddit": "saas",
+              "title": "I'm frustrated with every project management tool",
+              "selftext": "Tried Asana, Monday, ClickUp.",
+              "author": "startup_dev_42",
+              "score": 127,
+              "num_comments": 3,
+              "permalink": "/r/saas/comments/abc123/frustrated/",
+              "created_utc": 1742630400
+            }
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Listing",
+      "data": {
+        "children": [
+          {
+            "kind": "t1",
+            "data": {
+              "id": "comment1",
+              "body": "Have you tried Linear? It solved most of these issues for us.",
+              "author": "helpful_dev",
+              "score": 45,
+              "permalink": "/r/saas/comments/abc123/frustrated/comment1/",
+              "created_utc": 1742634000,
+              "parent_id": "t3_abc123",
+              "replies": {
+                "kind": "Listing",
+                "data": {
+                  "children": [
+                    {
+                      "kind": "t1",
+                      "data": {
+                        "id": "reply1",
+                        "body": "Linear is great but the pricing is painful for small teams",
+                        "author": "budget_coder",
+                        "score": 12,
+                        "permalink": "/r/saas/comments/abc123/frustrated/reply1/",
+                        "created_utc": 1742637600,
+                        "parent_id": "t1_comment1",
+                        "replies": ""
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "t1",
+            "data": {
+              "id": "deleted_comment",
+              "body": "[deleted]",
+              "author": "[deleted]",
+              "score": 0,
+              "permalink": "/r/saas/comments/abc123/frustrated/dc/",
+              "created_utc": 1742634000,
+              "parent_id": "t3_abc123",
+              "replies": ""
+            }
+          },
+          {
+            "kind": "more",
+            "data": {
+              "count": 5,
+              "children": ["more1", "more2"]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
