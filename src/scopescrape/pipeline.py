@@ -102,6 +102,26 @@ class Pipeline:
                 from scopescrape.adapters.hackernews import HackerNewsAdapter
 
                 self.adapters[platform] = HackerNewsAdapter(self.config)
+            elif platform == "github":
+                from scopescrape.adapters.github import GitHubAdapter
+
+                self.adapters[platform] = GitHubAdapter(self.config)
+            elif platform == "stackoverflow":
+                from scopescrape.adapters.stackoverflow import StackOverflowAdapter
+
+                self.adapters[platform] = StackOverflowAdapter(self.config)
+            elif platform == "twitter":
+                from scopescrape.adapters.twitter import TwitterAdapter
+
+                self.adapters[platform] = TwitterAdapter(self.config)
+            elif platform == "producthunt":
+                from scopescrape.adapters.producthunt import ProductHuntAdapter
+
+                self.adapters[platform] = ProductHuntAdapter(self.config)
+            elif platform == "indiehackers":
+                from scopescrape.adapters.indiehackers import IndieHackersAdapter
+
+                self.adapters[platform] = IndieHackersAdapter(self.config)
             else:
                 raise ValueError(f"Unknown platform: {platform}")
 
@@ -121,5 +141,9 @@ class Pipeline:
             from scopescrape.export.parquet_exporter import ParquetExporter
 
             return ParquetExporter(self.config)
+        elif fmt == "airtable":
+            from scopescrape.export.airtable_exporter import AirtableExporter
+
+            return AirtableExporter(self.config)
         else:
             raise ValueError(f"Unknown export format: {fmt}")

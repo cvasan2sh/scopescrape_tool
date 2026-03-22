@@ -46,6 +46,78 @@ class TestFrequencyScorer:
         score = scorer.score(sample_post)
         assert score == 5.0  # neutral default
 
+    def test_recurring_theme_scores_higher(self, sample_config):
+        """Posts with phrases echoed across corpus should score higher."""
+        # Create corpus where multiple posts mention "broken" and "crashing"
+        corpus = [
+            RawPost(
+                id="p1", platform="reddit", source="r/saas",
+                title="App is broken", body="The app keeps crashing constantly",
+                author="u1", score=0, comment_count=0, url="",
+                created_at=datetime.utcnow(),
+            ),
+            RawPost(
+                id="p2", platform="reddit", source="r/saas",
+                title="Still broken", body="Still dealing with crashes",
+                author="u2", score=0, comment_count=0, url="",
+                created_at=datetime.utcnow(),
+            ),
+            RawPost(
+                id="p3", platform="reddit", source="r/saas",
+                title="Help with UI", body="The new feature is nice",
+                author="u3", score=0, comment_count=0, url="",
+                created_at=datetime.utcnow(),
+            ),
+        ]
+
+        scorer = FrequencyScorer(sample_config)
+        scorer.build_index(corpus)
+
+        # Post mentioning "broken" and "crashing" (recurring theme)
+        post_recurring = RawPost(
+            id="test1", platform="reddit", source="r/saas",
+            title="Broken again", body="The app is broken and keeps crashing",
+            author="u4", score=0, comment_count=0, url="",
+            created_at=datetime.utcnow(),
+        )
+        score_recurring = scorer.score(post_recurring)
+
+        # Post mentioning "nice" (not recurring theme)
+        post_unique = RawPost(
+            id="test2", platform="reddit", source="r/saas",
+            title="Unique feedback", body="This is a unique observation",
+            author="u5", score=0, comment_count=0, url="",
+            created_at=datetime.utcnow(),
+        )
+        score_unique = scorer.score(post_unique)
+
+        # Recurring theme should score higher than unique complaint
+        assert score_recurring >= score_unique
+
+    def test_no_signal_phrases_scores_low(self, sample_config):
+        """Posts with no signal phrases should score low."""
+        corpus = [
+            RawPost(
+                id="p1", platform="reddit", source="r/saas",
+                title="Frustrated with tools", body="Everything is broken",
+                author="u1", score=0, comment_count=0, url="",
+                created_at=datetime.utcnow(),
+            ),
+        ]
+
+        scorer = FrequencyScorer(sample_config)
+        scorer.build_index(corpus)
+
+        # Post with no signal phrases should score 0
+        post = RawPost(
+            id="test", platform="reddit", source="r/saas",
+            title="Weather", body="Nice weather today",
+            author="u2", score=0, comment_count=0, url="",
+            created_at=datetime.utcnow(),
+        )
+        score = scorer.score(post)
+        assert score == 0.0  # no signal phrases
+
 
 class TestIntensityScorer:
     def test_negative_sentiment_high_score(self, sample_config):
@@ -112,6 +184,23 @@ class TestSpecificityScorer:
         # Force regex fallback
         scorer._nlp = None
         entities = scorer.extract_entities("I use Asana and ClickUp for project management")
+        assert len(entities) > 0
+
+    def test_filters_common_capitalized_words(self, sample_config):
+        """Regex fallback should filter out common capitalized sentence starters."""
+        scorer = SpecificityScorer(sample_config)
+        scorer._nlp = None
+        # These are common English words that shouldn't be treated as entities
+        entities = scorer.extract_entities("You and They went to Happy stores. Built new features. Then checked.")
+        # Should be empty or nearly empty - these are stopwords, not entities
+        assert len(entities) == 0, f"Expected no entities but got: {entities}"
+
+    def test_accepts_known_saas_products(self, sample_config):
+        """Regex fallback should accept known SaaS product names."""
+        scorer = SpecificityScorer(sample_config)
+        scorer._nlp = None
+        entities = scorer.extract_entities("I tried GitHub, Slack, and Notion")
+        # Should extract the product names
         assert len(entities) > 0
 
 

@@ -25,6 +25,28 @@ def sample_config():
             "rate_limit_delay": 0.0,
             "comment_depth": 5,
         },
+        "twitter": {
+            "nitter_instance": "https://nitter.net",
+            "fallback_instances": ["https://nitter.unixfederal.com"],
+            "rate_limit_delay": 0.0,
+        },
+        "github": {
+            "token": "",
+            "rate_limit_delay": 0.0,
+        },
+        "stackoverflow": {
+            "api_key": "",
+            "rate_limit_delay": 0.0,
+            "max_answers_per_question": 3,
+        },
+        "producthunt": {
+            "token": "",
+            "rate_limit_delay": 0.0,
+            "max_reviews_per_product": 5,
+        },
+        "indiehackers": {
+            "rate_limit_delay": 0.0,
+        },
         "scoring": {
             "weights": {
                 "frequency": 0.25,

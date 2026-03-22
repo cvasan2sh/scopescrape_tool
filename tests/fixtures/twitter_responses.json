@@ -1,0 +1,36 @@
+{
+  "search_results_html": "<!DOCTYPE html>\n<html>\n<head><title>Search Results</title></head>\n<body>\n  <div class=\"feed\">\n    <div class=\"tweet\" data-tweet-id=\"1234567890123456789\">\n      <a class=\"tweet-link\" href=\"/user1/status/1234567890123456789\"></a>\n      <a class=\"username\" href=\"/user1\">@user1</a>\n      <span class=\"tweet-date\">2h</span>\n      <p class=\"tweet-text\">I'm really frustrated with how buggy this API is. It keeps breaking in production.</p>\n      <div class=\"tweet-stats\">\n        <span class=\"stat-count\">1.2K</span>\n        <span class=\"stat-count\">500</span>\n        <span class=\"stat-count\">250</span>\n      </div>\n    </div>\n    <div class=\"tweet\" data-tweet-id=\"1234567890123456790\">\n      <a class=\"tweet-link\" href=\"/devguy/status/1234567890123456790\"></a>\n      <a class=\"username\" href=\"/devguy\">@devguy</a>\n      <span class=\"tweet-date\">5h</span>\n      <p class=\"tweet-text\">Anyone else struggling with database performance issues? We've been fighting with this for weeks.</p>\n      <div class=\"tweet-stats\">\n        <span class=\"stat-count\">850</span>\n        <span class=\"stat-count\">320</span>\n        <span class=\"stat-count\">180</span>\n      </div>\n    </div>\n    <div class=\"tweet\" data-tweet-id=\"1234567890123456791\">\n      <a class=\"tweet-link\" href=\"/techgirl/status/1234567890123456791\"></a>\n      <a class=\"username\" href=\"/techgirl\">@techgirl</a>\n      <span class=\"tweet-date\">1d</span>\n      <p class=\"tweet-text\">Love how intuitive the UX is on this new product! It just works.</p>\n      <div class=\"tweet-stats\">\n        <span class=\"stat-count\">5K</span>\n        <span class=\"stat-count\">2K</span>\n        <span class=\"stat-count\">1.5K</span>\n      </div>\n    </div>\n  </div>\n</body>\n</html>",
+  "search_results_empty": "<!DOCTYPE html>\n<html>\n<head><title>No Results</title></head>\n<body>\n  <div class=\"feed\">\n  </div>\n</body>\n</html>",
+  "expected_parse_results": [
+    {
+      "id": "tw_1234567890123456789",
+      "platform": "twitter",
+      "source": "twitter_search",
+      "title": "",
+      "body": "I'm really frustrated with how buggy this API is. It keeps breaking in production.",
+      "author": "@user1",
+      "score": 1950,
+      "url": "https://twitter.com/user1/status/1234567890123456789"
+    },
+    {
+      "id": "tw_1234567890123456790",
+      "platform": "twitter",
+      "source": "twitter_search",
+      "title": "",
+      "body": "Anyone else struggling with database performance issues? We've been fighting with this for weeks.",
+      "author": "@devguy",
+      "score": 1350,
+      "url": "https://twitter.com/devguy/status/1234567890123456790"
+    },
+    {
+      "id": "tw_1234567890123456791",
+      "platform": "twitter",
+      "source": "twitter_search",
+      "title": "",
+      "body": "Love how intuitive the UX is on this new product! It just works.",
+      "author": "@techgirl",
+      "score": 8500,
+      "url": "https://twitter.com/techgirl/status/1234567890123456791"
+    }
+  ]
+}

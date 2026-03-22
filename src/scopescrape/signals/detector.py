@@ -132,10 +132,17 @@ SIGNAL_PHRASES: dict[SignalTier, list[tuple[str, str]]] = {
 class SignalDetector:
     """Detect signal phrases in text and extract surrounding context."""
 
+    # Patterns for self-promotion detection
+    SELF_PROMOTION_TRIGGER = r"\bi\s+(?:built|made|created|designed|developed|founded|launched|built)"
+    SELF_PROMOTION_CTA = r"(?:check\s+it\s+out|happy\s+to\s+share|beta|launching|sign\s+up|try\s+it|give\s+it\s+a\s+try|interested)"
+
     def __init__(self, config: dict, context_window: int = 50):
         self.config = config
         self.context_window = context_window
         self.patterns = self._compile_patterns()
+        # Compile self-promotion detection patterns
+        self._promo_trigger_pattern = re.compile(self.SELF_PROMOTION_TRIGGER, re.IGNORECASE)
+        self._promo_cta_pattern = re.compile(self.SELF_PROMOTION_CTA, re.IGNORECASE)
         logger.debug(
             f"SignalDetector loaded: {sum(len(v) for v in SIGNAL_PHRASES.values())} phrases "
             f"across {len(SIGNAL_PHRASES)} tiers"
@@ -162,6 +169,10 @@ class SignalDetector:
     def detect(self, text: str, post_id: str = "") -> list[PainPoint]:
         """Find all signal phrases in the given text.
 
+        Applies self-promotion detection: if the post appears to be
+        promotional (e.g. "I built X, check it out"), reduces confidence
+        of all signals by 50% to account for bias.
+
         Args:
             text: The full text to scan (title + body typically).
             post_id: Optional identifier for logging.
@@ -174,6 +185,9 @@ class SignalDetector:
 
         results: list[PainPoint] = []
         seen_positions: set[tuple[int, str]] = set()  # (position, phrase) dedup
+
+        # Check if this post appears to be promotional
+        is_promotional = self._is_promotional(text)
 
         for tier, patterns in self.patterns.items():
             for pattern, category in patterns:
@@ -191,19 +205,49 @@ class SignalDetector:
                         text, position, len(phrase), self.context_window
                     )
 
+                    # Reduce confidence by 50% if post is promotional
+                    confidence = 1.0
+                    if is_promotional:
+                        confidence = 0.5
+
                     results.append(PainPoint(
                         phrase=phrase,
                         tier=tier,
                         category=category,
                         position=position,
                         context=context,
-                        confidence=1.0,
+                        confidence=confidence,
                     ))
 
         if results:
-            logger.debug(f"Post {post_id}: {len(results)} signals detected")
+            logger.debug(f"Post {post_id}: {len(results)} signals detected" +
+                        (f" (promotional, confidence halved)" if is_promotional else ""))
 
         return results
+
+    def _is_promotional(self, text: str) -> bool:
+        """Detect if a post appears to be self-promotional.
+
+        Returns True if the post matches the pattern:
+        "I built/created/made X" + (call-to-action phrases like
+        "check it out", "happy to share", "beta", "launching", "sign up")
+
+        Args:
+            text: The text to check.
+
+        Returns:
+            True if the post appears promotional, False otherwise.
+        """
+        # Check if text contains self-promotion trigger phrase
+        if not self._promo_trigger_pattern.search(text):
+            return False
+
+        # Check if text also contains a call-to-action phrase
+        if self._promo_cta_pattern.search(text):
+            logger.debug("Detected self-promotional post (I built + CTA)")
+            return True
+
+        return False
 
     def detect_batch(self, posts: list, text_attr: str = "full_text") -> dict[str, list[PainPoint]]:
         """Run detection across a list of posts.

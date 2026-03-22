@@ -1,0 +1,86 @@
+{
+  "search_products": {
+    "data": {
+      "products": {
+        "edges": [
+          {
+            "node": {
+              "id": "ph_prod_1001",
+              "slug": "scopescrape",
+              "name": "ScopeScrape",
+              "tagline": "Find product-market fit faster",
+              "description": "A tool that scans community platforms for pain points and market signals",
+              "votesCount": 245,
+              "commentsCount": 18,
+              "reviewsRating": 4.8,
+              "createdAt": "2026-03-20T14:30:00Z",
+              "website": "https://scopescrape.com"
+            }
+          },
+          {
+            "node": {
+              "id": "ph_prod_1002",
+              "slug": "pain-finder",
+              "name": "Pain Finder",
+              "tagline": "Automated customer pain discovery",
+              "description": "Uses AI to find customer pain points in feedback",
+              "votesCount": 189,
+              "commentsCount": 12,
+              "reviewsRating": 4.5,
+              "createdAt": "2026-03-19T10:00:00Z",
+              "website": "https://painfinder.app"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "product_reviews": {
+    "data": {
+      "product": {
+        "id": "ph_prod_1001",
+        "slug": "scopescrape",
+        "reviews": {
+          "edges": [
+            {
+              "node": {
+                "id": "ph_review_5001",
+                "body": "This tool saved us so much time finding what our users actually needed. We discovered a huge pain point we completely missed.",
+                "rating": 5,
+                "createdAt": "2026-03-21T12:00:00Z",
+                "user": {
+                  "name": "Jane Smith",
+                  "username": "jane_entrepreneur"
+                }
+              }
+            },
+            {
+              "node": {
+                "id": "ph_review_5002",
+                "body": "Great idea but I wish it would analyze support tickets too. That's where we see the real frustrations.",
+                "rating": 4,
+                "createdAt": "2026-03-20T18:30:00Z",
+                "user": {
+                  "name": "Bob Developer",
+                  "username": "bob_dev"
+                }
+              }
+            },
+            {
+              "node": {
+                "id": "ph_review_5003",
+                "body": "Struggling with the API rate limits but overall very helpful",
+                "rating": 3,
+                "createdAt": "2026-03-19T09:15:00Z",
+                "user": {
+                  "name": "Alice Hacker",
+                  "username": "alice_hacker"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

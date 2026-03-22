@@ -1,0 +1,86 @@
+{
+  "search_results": {
+    "items": [
+      {
+        "question_id": 70123456,
+        "title": "How to improve slow database queries",
+        "body": "I'm struggling with performance issues in my application. Queries that used to take 100ms now take 5 seconds.",
+        "owner": {
+          "display_name": "john_dev",
+          "user_id": 501234
+        },
+        "link": "https://stackoverflow.com/questions/70123456/how-to-improve-slow-database-queries",
+        "creation_date": 1711000200,
+        "score": 45,
+        "comment_count": 2,
+        "tags": ["database", "performance", "sql"]
+      },
+      {
+        "question_id": 70123457,
+        "title": "API rate limiting is too strict",
+        "body": "The frustration with this API is that the rate limits are unreasonable for legitimate use cases. We hit the limit within minutes.",
+        "owner": {
+          "display_name": "api_user",
+          "user_id": 501235
+        },
+        "link": "https://stackoverflow.com/questions/70123457/api-rate-limiting-is-too-strict",
+        "creation_date": 1711003800,
+        "score": 23,
+        "comment_count": 5,
+        "tags": ["api", "rate-limiting", "rest"]
+      }
+    ],
+    "has_more": false,
+    "quota_max": 300,
+    "quota_remaining": 290
+  },
+  "answers_70123456": {
+    "items": [
+      {
+        "answer_id": 70123480,
+        "question_id": 70123456,
+        "body": "Try using EXPLAIN ANALYZE to identify bottlenecks in your queries. You can also add indexes on frequently filtered columns.",
+        "owner": {
+          "display_name": "db_expert",
+          "user_id": 501240
+        },
+        "link": "https://stackoverflow.com/questions/70123456/_/70123480#70123480",
+        "creation_date": 1711010000,
+        "score": 87,
+        "comment_count": 3
+      },
+      {
+        "answer_id": 70123481,
+        "question_id": 70123456,
+        "body": "Consider using query caching or a materialized view for frequently accessed data.",
+        "owner": {
+          "display_name": "cache_guru",
+          "user_id": 501241
+        },
+        "link": "https://stackoverflow.com/questions/70123456/_/70123481#70123481",
+        "creation_date": 1711015000,
+        "score": 34,
+        "comment_count": 1
+      }
+    ],
+    "quota_remaining": 288
+  },
+  "answers_70123457": {
+    "items": [
+      {
+        "answer_id": 70123490,
+        "question_id": 70123457,
+        "body": "Consider using an API wrapper that handles rate limiting automatically with exponential backoff.",
+        "owner": {
+          "display_name": "api_pro",
+          "user_id": 501242
+        },
+        "link": "https://stackoverflow.com/questions/70123457/_/70123490#70123490",
+        "creation_date": 1711020000,
+        "score": 56,
+        "comment_count": 2
+      }
+    ],
+    "quota_remaining": 287
+  }
+}

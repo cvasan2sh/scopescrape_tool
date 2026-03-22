@@ -28,6 +28,31 @@ DEFAULTS: dict[str, Any] = {
         "rate_limit_delay": 0.1,
         "comment_depth": 5,
     },
+    "github": {
+        "token": "",
+        "rate_limit_delay": 1.0,
+    },
+    "stackoverflow": {
+        "api_key": "",
+        "rate_limit_delay": 0.5,
+        "max_answers_per_question": 3,
+    },
+    "twitter": {
+        "nitter_instance": "https://nitter.net",
+        "fallback_instances": [
+            "https://nitter.unixfederal.com",
+            "https://nitter.cutelab.space",
+        ],
+        "rate_limit_delay": 1.0,
+    },
+    "producthunt": {
+        "token": "",
+        "rate_limit_delay": 0.5,
+        "max_reviews_per_product": 5,
+    },
+    "indiehackers": {
+        "rate_limit_delay": 0.2,
+    },
     "scoring": {
         "weights": {
             "frequency": 0.25,
@@ -46,6 +71,13 @@ DEFAULTS: dict[str, Any] = {
         "default_limit": 100,
         "default_time_range": "week",
         "default_platforms": ["reddit"],
+    },
+    "airtable": {
+        "api_key": "",
+        "base_id": "",
+        "scans_table_id": "",
+        "pain_points_table_id": "",
+        "signals_table_id": "",
     },
 }
 

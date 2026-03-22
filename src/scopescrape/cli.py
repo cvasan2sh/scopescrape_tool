@@ -33,11 +33,11 @@ def main(ctx, config_path, verbose, quiet):
 @main.command()
 @click.option("--subreddits", type=str, default=None, help="Comma-separated subreddit names")
 @click.option("--keywords", type=str, default=None, help="Comma-separated search terms")
-@click.option("--platforms", type=click.Choice(["reddit", "hn", "all"]), default=None)
+@click.option("--platforms", type=click.Choice(["reddit", "hn", "github", "stackoverflow", "twitter", "producthunt", "indiehackers", "all"]), default=None)
 @click.option("--time-range", type=click.Choice(["day", "week", "month", "year"]), default=None)
 @click.option("--limit", type=int, default=None, help="Max posts to analyze")
 @click.option("--min-score", type=float, default=None, help="Minimum composite score threshold")
-@click.option("--output", "output_format", type=click.Choice(["json", "csv", "parquet"]), default="json")
+@click.option("--output", "output_format", type=click.Choice(["json", "csv", "parquet", "airtable"]), default="json")
 @click.option("--output-file", type=click.Path(), default=None, help="Destination file path")
 @click.option("--dry-run", is_flag=True, help="Show what would be scanned without executing")
 @click.pass_context
@@ -123,12 +123,35 @@ def platforms(ctx):
     platform_info = [
         ("reddit", "Reddit (via PRAW)", bool(config.get("reddit", {}).get("client_id"))),
         ("hn", "Hacker News (via Algolia)", True),  # No auth required
+        ("github", "GitHub (via REST Search API)", True),  # No auth required (optional token)
+        ("stackoverflow", "Stack Overflow (via Stack Exchange API)", True),  # No auth required (optional key)
+        ("twitter", "Twitter/X (via Nitter HTML scraping)", True),  # No auth required
+        ("producthunt", "Product Hunt (via GraphQL API)", True),  # No auth required (optional token)
+        ("indiehackers", "Indie Hackers (via Algolia)", True),  # No auth required
     ]
 
     click.echo("Available platforms:\n")
     for key, name, ready in platform_info:
         status = click.style("ready", fg="green") if ready else click.style("not configured", fg="red")
         click.echo(f"  {key:10s} {name:35s} [{status}]")
+
+
+@main.command()
+@click.option("--host", default="127.0.0.1", help="Host to bind to")
+@click.option("--port", default=8888, type=int, help="Port to serve on")
+def web(host, port):
+    """Launch the ScopeScrape web UI (local server)."""
+    try:
+        from scopescrape.web import start_server
+    except ImportError:
+        click.echo(
+            "Web dependencies not installed. Run:\n"
+            '  pip install -e ".[webapp]"',
+            err=True,
+        )
+        raise click.Abort()
+
+    start_server(host=host, port=port)
 
 
 def _resolve_platforms(cli_value: str | None, scan_config: dict) -> list[str]:
