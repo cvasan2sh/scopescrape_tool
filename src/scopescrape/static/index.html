@@ -546,7 +546,7 @@
 
   <main>
     <h1>Pain Point <span>Scanner</span></h1>
-    <p class="subtitle">Scan Reddit and Hacker News for real user frustrations. Results scored across four dimensions.</p>
+    <p class="subtitle">Describe your product or ICP, and we'll find the pain points that matter. 7 platforms. 4 scoring dimensions.</p>
 
     <!-- TABS -->
     <div class="tab-bar">
@@ -556,6 +556,25 @@
 
     <!-- SCAN FORM -->
     <div class="scan-form" id="scanForm">
+      <!-- ICP INPUT -->
+      <div class="form-group full" style="margin-bottom:1rem">
+        <label for="icpInput">Describe your product or ICP</label>
+        <div style="display:flex;gap:0.5rem">
+          <input type="text" id="icpInput" placeholder="e.g. CRM for real estate agents, invoicing tool for freelancers" style="flex:1" />
+          <button class="btn btn-secondary" id="recommendBtn" onclick="getRecommendations()" style="white-space:nowrap">
+            Recommend
+          </button>
+        </div>
+        <div id="recStatus" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.3rem;display:none"></div>
+      </div>
+
+      <!-- RECOMMENDED CHIPS -->
+      <div id="recChips" style="display:none;margin-bottom:1rem;padding:0.75rem;background:var(--bg-input);border-radius:8px;border:1px solid var(--border)">
+        <div style="font-size:0.75rem;font-family:var(--font-mono);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem">Recommended — click to toggle</div>
+        <div id="recSubChips" style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:0.5rem"></div>
+        <div id="recKwChips" style="display:flex;flex-wrap:wrap;gap:0.4rem"></div>
+      </div>
+
       <div class="form-grid">
         <div class="form-group">
           <label for="subreddits">Subreddits</label>
@@ -570,7 +589,12 @@
           <select id="platform">
             <option value="reddit">Reddit</option>
             <option value="hn">Hacker News</option>
-            <option value="all">Both</option>
+            <option value="github">GitHub Issues</option>
+            <option value="stackoverflow">Stack Overflow</option>
+            <option value="twitter">Twitter/X</option>
+            <option value="producthunt">Product Hunt</option>
+            <option value="indiehackers">Indie Hackers</option>
+            <option value="all">All Platforms</option>
           </select>
         </div>
         <div class="form-group">
@@ -656,7 +680,7 @@
           <circle cx="13.5" cy="13.5" r="9.5" stroke="currentColor" stroke-width="2.2" fill="none"/>
           <line x1="20.8" y1="20.8" x2="29" y2="29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
         </svg>
-        <p>Enter subreddits and keywords above, then hit Scan.</p>
+        <p>Describe your product above and hit Recommend, or enter subreddits and keywords directly.</p>
       </div>
       <div class="results-list" id="resultsList"></div>
     </div>
@@ -664,7 +688,7 @@
   </main>
 
   <footer>
-    <div>ScopeScrape v0.1 — local instance</div>
+    <div>ScopeScrape v0.2 — local instance</div>
     <a href="https://scopescrape.earnedconviction.com">scopescrape.earnedconviction.com</a>
   </footer>
 
@@ -680,6 +704,76 @@ function switchTab(tab) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
   document.getElementById('scanForm').style.display = tab === 'scan' ? 'block' : 'none';
   document.getElementById('uploadZone').classList.toggle('active', tab === 'upload');
+}
+
+// ---- ICP Recommendations ----
+async function getRecommendations() {
+  const icp = document.getElementById('icpInput').value.trim();
+  if (!icp) { alert('Describe your product or ICP first.'); return; }
+
+  const btn = document.getElementById('recommendBtn');
+  const status = document.getElementById('recStatus');
+  btn.disabled = true;
+  btn.textContent = 'Thinking...';
+  status.style.display = 'block';
+  status.textContent = 'Analyzing your ICP...';
+
+  try {
+    const resp = await fetch('/api/recommend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ icp }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || 'Recommendation failed');
+
+    // Show recommendation chips
+    const chipBox = document.getElementById('recChips');
+    chipBox.style.display = 'block';
+
+    // Subreddit chips
+    const subChips = document.getElementById('recSubChips');
+    subChips.innerHTML = data.subreddits.map(s =>
+      `<button class="filter-chip active" onclick="toggleRecChip(this, 'sub')" data-value="${esc(s.name.replace('r/',''))}" title="${esc(s.reason)}">${esc(s.name)} <span style='opacity:0.6;font-size:0.7rem'>${Math.round(s.relevance*100)}%</span></button>`
+    ).join('');
+
+    // Keyword chips
+    const kwChips = document.getElementById('recKwChips');
+    kwChips.innerHTML = data.keywords.map(k =>
+      `<button class="filter-chip active" onclick="toggleRecChip(this, 'kw')" data-value="${esc(k)}">${esc(k)}</button>`
+    ).join('');
+
+    // Auto-fill form fields from active chips
+    syncChipsToForm();
+
+    // Set recommended platform if provided
+    if (data.platforms && data.platforms.length > 0) {
+      const platSelect = document.getElementById('platform');
+      const recPlat = data.platforms[0].toLowerCase();
+      for (const opt of platSelect.options) {
+        if (opt.value === recPlat) { platSelect.value = recPlat; break; }
+      }
+    }
+
+    status.textContent = `Found ${data.subreddits.length} subreddits, ${data.keywords.length} keywords. Toggle chips to customize, then hit Scan.`;
+  } catch (err) {
+    status.textContent = 'Error: ' + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Recommend';
+  }
+}
+
+function toggleRecChip(el, type) {
+  el.classList.toggle('active');
+  syncChipsToForm();
+}
+
+function syncChipsToForm() {
+  const activeSubs = [...document.querySelectorAll('#recSubChips .filter-chip.active')].map(c => c.dataset.value);
+  const activeKws = [...document.querySelectorAll('#recKwChips .filter-chip.active')].map(c => c.dataset.value);
+  document.getElementById('subreddits').value = activeSubs.join(', ');
+  document.getElementById('keywords').value = activeKws.join(', ');
 }
 
 // ---- Start scan ----

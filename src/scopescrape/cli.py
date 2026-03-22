@@ -1,6 +1,7 @@
 """ScopeScrape CLI built on Click.
 
 Commands:
+    recommend - Get ICP-to-subreddit recommendations
     scan      - Run pain point analysis on specified platforms
     config    - Display current configuration
     platforms - List available platforms and API status
@@ -31,6 +32,68 @@ def main(ctx, config_path, verbose, quiet):
 
 
 @main.command()
+@click.option("--icp", type=str, required=True, help="Ideal Customer Profile description (e.g., 'CRM for real estate agents')")
+@click.pass_context
+def recommend(ctx, icp):
+    """Get recommended subreddits and platforms for an ICP.
+
+    Example:
+        scopescrape recommend --icp "CRM for real estate agents"
+    """
+    from scopescrape.recommend import recommend_for_icp
+
+    logger = ctx.obj["logger"]
+
+    logger.info(f"Generating recommendations for: {icp}")
+
+    result = recommend_for_icp(icp)
+
+    # Display results using rich tables
+    try:
+        from rich.console import Console
+        from rich.table import Table
+    except ImportError:
+        # Fallback to plain text if rich not installed
+        _display_recommendations_plain(result)
+        return
+
+    console = Console()
+
+    # ICP Summary
+    console.print(f"\n[bold cyan]ICP:[/bold cyan] {result.icp_summary}\n")
+
+    # Subreddits table
+    if result.subreddits:
+        table = Table(title="Recommended Subreddits", show_header=True, header_style="bold magenta")
+        table.add_column("Subreddit", style="cyan")
+        table.add_column("Relevance", style="green")
+        table.add_column("Reason", style="yellow")
+
+        for sub in result.subreddits:
+            relevance_pct = f"{sub['relevance'] * 100:.0f}%"
+            table.add_row(sub["name"], relevance_pct, sub["reason"])
+
+        console.print(table)
+    else:
+        console.print("[yellow]No matching subreddits found.[/yellow]")
+
+    # Keywords
+    if result.keywords:
+        console.print(f"\n[bold magenta]Recommended Keywords:[/bold magenta]")
+        keywords_str = ", ".join(result.keywords[:10])
+        console.print(f"  {keywords_str}")
+
+    # Platforms
+    if result.platforms:
+        console.print(f"\n[bold green]Recommended Platforms:[/bold green]")
+        platforms_str = ", ".join(result.platforms)
+        console.print(f"  {platforms_str}")
+
+    console.print()
+
+
+@main.command()
+@click.option("--icp", type=str, default=None, help="ICP to auto-recommend subreddits and keywords")
 @click.option("--subreddits", type=str, default=None, help="Comma-separated subreddit names")
 @click.option("--keywords", type=str, default=None, help="Comma-separated search terms")
 @click.option("--platforms", type=click.Choice(["reddit", "hn", "github", "stackoverflow", "twitter", "producthunt", "indiehackers", "all"]), default=None)
@@ -41,10 +104,38 @@ def main(ctx, config_path, verbose, quiet):
 @click.option("--output-file", type=click.Path(), default=None, help="Destination file path")
 @click.option("--dry-run", is_flag=True, help="Show what would be scanned without executing")
 @click.pass_context
-def scan(ctx, subreddits, keywords, platforms, time_range, limit, min_score, output_format, output_file, dry_run):
-    """Run pain point analysis on community platforms."""
+def scan(ctx, icp, subreddits, keywords, platforms, time_range, limit, min_score, output_format, output_file, dry_run):
+    """Run pain point analysis on community platforms.
+
+    Can be used in two ways:
+      1. Direct: --subreddits and/or --keywords
+      2. ICP-driven: --icp to auto-generate recommendations
+
+    Examples:
+        scopescrape scan --subreddits "saas,startups" --keywords "crm,salesforce"
+        scopescrape scan --icp "CRM for real estate agents"
+    """
     config = ctx.obj["config"]
     logger = ctx.obj["logger"]
+
+    # If ICP provided, use recommender to populate subreddits/keywords
+    if icp:
+        from scopescrape.recommend import recommend_for_icp
+
+        logger.info(f"Using ICP: {icp}")
+        rec_result = recommend_for_icp(icp)
+
+        if not subreddits and rec_result.subreddits:
+            subreddits = ",".join([s["name"].replace("r/", "") for s in rec_result.subreddits[:5]])
+            logger.info(f"Auto-populated subreddits: {subreddits}")
+
+        if not keywords and rec_result.keywords:
+            keywords = ",".join(rec_result.keywords[:5])
+            logger.info(f"Auto-populated keywords: {keywords}")
+
+        if not platforms and rec_result.platforms:
+            platforms = rec_result.platforms[0]
+            logger.info(f"Auto-populated platform: {platforms}")
 
     # Apply CLI overrides to config
     scan_config = config.get("scan", {})
@@ -61,7 +152,7 @@ def scan(ctx, subreddits, keywords, platforms, time_range, limit, min_score, out
         raise click.Abort()
 
     if not subreddits and not keywords:
-        click.echo("Error: provide --subreddits and/or --keywords", err=True)
+        click.echo("Error: provide --icp, --subreddits, and/or --keywords", err=True)
         raise click.Abort()
 
     # Build query dict
@@ -157,7 +248,7 @@ def web(host, port):
 def _resolve_platforms(cli_value: str | None, scan_config: dict) -> list[str]:
     """Resolve platform selection from CLI flag or config default."""
     if cli_value == "all":
-        return ["reddit", "hn"]
+        return ["reddit", "hn", "github", "stackoverflow", "twitter", "producthunt", "indiehackers"]
     if cli_value:
         return [cli_value]
     return scan_config.get("default_platforms", ["reddit"])
@@ -177,3 +268,26 @@ def _mask_config(config: dict) -> dict:
             masked[key] = value
 
     return masked
+
+
+def _display_recommendations_plain(result):
+    """Fallback plain text display for recommendations (when rich not available)."""
+    click.echo(f"\nICP: {result.icp_summary}\n")
+
+    if result.subreddits:
+        click.echo("Recommended Subreddits:")
+        for sub in result.subreddits:
+            rel_pct = f"{sub['relevance'] * 100:.0f}%"
+            click.echo(f"  {sub['name']:20s} (relevance: {rel_pct:>3s}) - {sub['reason']}")
+    else:
+        click.echo("No matching subreddits found.")
+
+    if result.keywords:
+        click.echo(f"\nRecommended Keywords:")
+        click.echo(f"  {', '.join(result.keywords[:10])}")
+
+    if result.platforms:
+        click.echo(f"\nRecommended Platforms:")
+        click.echo(f"  {', '.join(result.platforms)}")
+
+    click.echo()

@@ -71,6 +71,17 @@ class ScanStatus(BaseModel):
     finished_at: str | None = None
 
 
+class RecommendRequest(BaseModel):
+    icp: str
+
+
+class RecommendResponse(BaseModel):
+    subreddits: list[dict]
+    keywords: list[str]
+    platforms: list[str]
+    icp_summary: str
+
+
 # ---------------------------------------------------------------------------
 # Capture pipeline logs as progress messages
 # ---------------------------------------------------------------------------
@@ -90,6 +101,24 @@ class ProgressCapture(logging.Handler):
 # ---------------------------------------------------------------------------
 # API routes
 # ---------------------------------------------------------------------------
+
+@app.post("/api/recommend", response_model=RecommendResponse)
+async def recommend(req: RecommendRequest):
+    """Get ICP-to-subreddit recommendations."""
+    if not req.icp or not req.icp.strip():
+        raise HTTPException(400, "ICP description cannot be empty")
+
+    from scopescrape.recommend import recommend_for_icp
+
+    result = recommend_for_icp(req.icp)
+
+    return RecommendResponse(
+        subreddits=result.subreddits,
+        keywords=result.keywords,
+        platforms=result.platforms,
+        icp_summary=result.icp_summary,
+    )
+
 
 @app.post("/api/scan", response_model=ScanStatus)
 async def start_scan(req: ScanRequest):
